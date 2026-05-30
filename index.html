@@ -4,230 +4,88 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Darshan's Gym Blueprint — Starting June 1</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0a0a0a;
-    --surface: #111;
-    --card: #161616;
-    --border: #222;
-    --accent: #e8ff4a;
-    --accent2: #ff6b35;
-    --accent3: #4af0ff;
-    --text: #f0f0f0;
-    --muted: #666;
-    --rest-bg: #0d1a0d;
-    --rest-accent: #4aff88;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; min-height:100vh; overflow-x:hidden; }
-
-  /* HERO */
-  .hero {
-    background: linear-gradient(135deg,#0a0a0a 0%,#111 60%,#0d1a0d 100%);
-    border-bottom:1px solid var(--border);
-    padding:48px 24px 36px;
-    position:relative; overflow:hidden;
-  }
-  .hero::before {
-    content:'LIFT'; position:absolute; right:-10px; top:-10px;
-    font-family:'Bebas Neue',sans-serif; font-size:220px; color:#ffffff05; line-height:1; pointer-events:none;
-  }
-  .hero-tag {
-    display:inline-block; background:var(--accent); color:#000;
-    font-family:'DM Mono',monospace; font-size:11px; font-weight:500;
-    letter-spacing:2px; padding:4px 12px; border-radius:2px; margin-bottom:14px; text-transform:uppercase;
-  }
-  .hero h1 { font-family:'Bebas Neue',sans-serif; font-size:clamp(52px,12vw,96px); line-height:.95; letter-spacing:2px; margin-bottom:14px; }
-  .hero h1 span { color:var(--accent); }
-  .hero-stats { display:flex; gap:28px; flex-wrap:wrap; margin-top:20px; }
-  .stat { display:flex; flex-direction:column; gap:2px; }
-  .stat-val { font-family:'Bebas Neue',sans-serif; font-size:26px; color:var(--accent); letter-spacing:1px; }
-  .stat-label { font-size:10px; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; font-family:'DM Mono',monospace; }
-
-  /* BANNER */
-  .banner {
-    background:#0d1800; border:1px solid #2a4400; border-left:4px solid var(--accent);
-    padding:14px 20px; margin:20px 16px; border-radius:4px;
-    font-size:13px; color:#aac060; line-height:1.7;
-  }
-  .banner strong { color:var(--accent); }
-
-  /* WEEK OVERVIEW */
-  .week-section { padding:0 16px 20px; }
-  .section-label {
-    font-family:'DM Mono',monospace; font-size:10px; letter-spacing:3px;
-    text-transform:uppercase; color:var(--muted); margin-bottom:10px; padding-left:2px;
-  }
-  .week-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
-  .wc {
-    background:var(--card); border:1px solid var(--border); border-radius:4px;
-    padding:8px 4px; text-align:center; cursor:pointer; transition:all .2s;
-  }
-  .wc:hover { border-color:var(--accent); }
-  .wc .wc-d { font-family:'DM Mono',monospace; font-size:8px; color:var(--muted); letter-spacing:1px; margin-bottom:3px; }
-  .wc .wc-n { font-size:8px; color:#555; line-height:1.3; }
-  .wc.rest-cell { background:var(--rest-bg); }
-  .wc.rest-cell .wc-n { color:var(--rest-accent); }
-
-  /* NAV TABS */
-  .nav-tabs { display:flex; gap:6px; padding:0 16px 20px; overflow-x:auto; scrollbar-width:none; }
-  .nav-tabs::-webkit-scrollbar { display:none; }
-  .tab {
-    flex-shrink:0; padding:9px 16px; background:var(--card); border:1px solid var(--border);
-    border-radius:4px; cursor:pointer; font-family:'DM Mono',monospace; font-size:11px;
-    color:var(--muted); transition:all .2s; text-align:center;
-  }
-  .tab:hover { border-color:var(--accent); color:var(--accent); }
-  .tab.active { background:var(--accent); color:#000; border-color:var(--accent); font-weight:600; }
-  .tab.rest-tab.active { background:var(--rest-accent); color:#000; border-color:var(--rest-accent); }
-  .tab .tab-d { font-size:15px; font-weight:700; font-family:'Bebas Neue',sans-serif; letter-spacing:1px; }
-  .tab .tab-n { font-size:9px; margin-top:1px; }
-
-  /* DAY PANELS */
-  .panel { display:none; padding:0 16px 60px; }
-  .panel.active { display:block; }
-
-  .day-header { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:24px; flex-wrap:wrap; }
-  .day-title { font-family:'Bebas Neue',sans-serif; font-size:44px; line-height:1; letter-spacing:2px; }
-  .day-focus {
-    display:inline-block; border:1px solid var(--accent); color:var(--accent);
-    font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px;
-    padding:3px 9px; border-radius:2px; text-transform:uppercase; margin-top:6px;
-  }
-  .day-dur { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); padding:8px 14px; background:var(--card); border:1px solid var(--border); border-radius:4px; text-align:center; }
-  .day-dur span { display:block; font-size:22px; font-family:'Bebas Neue',sans-serif; color:var(--text); letter-spacing:1px; }
-
-  /* PHASE LABEL */
-  .ph-label {
-    font-family:'DM Mono',monospace; font-size:9px; letter-spacing:3px;
-    text-transform:uppercase; color:var(--muted); margin:22px 0 10px; padding-left:2px;
-  }
-
-  /* EXERCISE CARD */
-  .ex {
-    background:var(--card); border:1px solid var(--border); border-radius:6px;
-    margin-bottom:12px; overflow:hidden; transition:border-color .2s;
-  }
-  .ex:hover { border-color:#2a2a2a; }
-  .ex.warmup { border-left:3px solid var(--accent3); }
-  .ex.main { border-left:3px solid var(--accent); }
-  .ex.cardio { border-left:3px solid var(--accent2); }
-  .ex.cooldown { border-left:3px solid var(--rest-accent); }
-
-  /* IMAGE STRIP */
-  .ex-images {
-    display:grid; grid-template-columns:1fr 1fr; gap:0;
-    border-bottom:1px solid var(--border); height:170px;
-  }
-  .ex-images.single { grid-template-columns:1fr; }
-  .img-panel {
-    position:relative; overflow:hidden; background:#111;
-  }
-  .img-panel img {
-    width:100%; height:100%; object-fit:cover; object-position:center;
-    transition:transform .4s; filter:brightness(.85);
-  }
-  .ex:hover .img-panel img { transform:scale(1.04); filter:brightness(1); }
-  .img-label {
-    position:absolute; bottom:0; left:0; right:0;
-    background:linear-gradient(transparent,rgba(0,0,0,.85));
-    font-family:'DM Mono',monospace; font-size:9px; letter-spacing:1.5px;
-    text-transform:uppercase; color:#aaa; padding:16px 8px 7px;
-  }
-  .img-divider { width:1px; background:var(--border); }
-
-  /* CARD BODY */
-  .ex-body { padding:14px 16px; }
-  .ex-top { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
-  .ex-name { font-size:16px; font-weight:600; color:var(--text); line-height:1.2; }
-  .ex-badge {
-    font-family:'DM Mono',monospace; font-size:9px; letter-spacing:1px;
-    text-transform:uppercase; padding:3px 8px; border-radius:2px; flex-shrink:0;
-  }
-  .b-warmup { background:#001a2a; color:var(--accent3); border:1px solid #003a50; }
-  .b-main { background:#1a1900; color:var(--accent); border:1px solid #3a3800; }
-  .b-cardio { background:#1a0900; color:var(--accent2); border:1px solid #3a1500; }
-  .b-cooldown { background:var(--rest-bg); color:var(--rest-accent); border:1px solid #1a4a20; }
-
-  .metrics { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px; }
-  .m {
-    display:flex; flex-direction:column; background:#0d0d0d;
-    border:1px solid #1e1e1e; border-radius:4px; padding:7px 12px; min-width:72px;
-  }
-  .m-v { font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:1px; line-height:1; }
-  .m-k { font-family:'DM Mono',monospace; font-size:8px; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; margin-top:2px; }
-  .cv { color:var(--accent); } .tv { color:var(--text); } .mv { color:var(--muted); }
-  .sv { color:var(--accent2); } .dv { color:var(--accent3); } .pv { color:#c084fc; }
-
-  .ex-note { font-size:12px; color:var(--muted); line-height:1.6; border-top:1px solid #1a1a1a; padding-top:10px; }
-  .ex-note strong { color:#aaa; }
-
-  /* TREADMILL */
-  .tmill {
-    background:#100a00; border:1px solid #2a1800; border-left:3px solid var(--accent2);
-    border-radius:6px; padding:16px; margin-bottom:12px; overflow:hidden;
-  }
-  .tmill-header { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
-  .tmill-title { font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--accent2); letter-spacing:2px; }
-  .tmill-img { width:80px; height:52px; object-fit:cover; border-radius:4px; border:1px solid #2a1800; filter:brightness(.8); }
-  .tmill-rows { display:flex; flex-direction:column; gap:6px; }
-  .tmill-head {
-    display:grid; grid-template-columns:1fr 64px 64px 64px; gap:6px;
-    font-family:'DM Mono',monospace; font-size:8px; letter-spacing:1.5px;
-    text-transform:uppercase; color:var(--muted); padding:0 10px;
-  }
-  .tmill-row {
-    display:grid; grid-template-columns:1fr 64px 64px 64px; gap:6px;
-    align-items:center; background:#0a0500; border:1px solid #1a1000;
-    border-radius:4px; padding:8px 10px; font-size:12px;
-  }
-  .tmill-row .phase { font-weight:500; }
-  .tmill-row .val { font-family:'DM Mono',monospace; font-size:13px; font-weight:500; text-align:center; }
-  .val.spd { color:var(--accent2); } .val.inc { color:var(--accent3); } .val.dur { color:var(--accent); }
-
-  /* REST DAY */
-  .rest-hero {
-    background:var(--rest-bg); border:1px solid #1a3a1a; border-radius:8px;
-    padding:36px 24px; text-align:center; margin-bottom:16px;
-  }
-  .rest-hero h2 { font-family:'Bebas Neue',sans-serif; font-size:48px; color:var(--rest-accent); letter-spacing:3px; margin-bottom:8px; }
-  .rest-hero p { color:#6aaa78; font-size:13px; line-height:1.7; max-width:420px; margin:0 auto; }
-  .rest-tips { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; }
-  .rest-tip { background:var(--card); border:1px solid var(--border); border-radius:6px; padding:14px; }
-  .rest-tip .ico { font-size:22px; margin-bottom:6px; }
-  .rest-tip h4 { font-size:12px; font-weight:600; margin-bottom:4px; color:var(--rest-accent); }
-  .rest-tip p { font-size:11px; color:var(--muted); line-height:1.5; }
-
-  /* CIRCUIT BOX */
-  .circuit-box {
-    background:#0a0a14; border:1px solid #1a1a30; border-radius:6px;
-    padding:12px 14px; margin-bottom:14px; font-size:12px; color:#8888cc; line-height:1.6;
-  }
-  .circuit-box strong { color:#aaaaff; }
-
-  /* SCROLLBAR */
-  ::-webkit-scrollbar { width:4px; height:4px; }
-  ::-webkit-scrollbar-track { background:var(--bg); }
-  ::-webkit-scrollbar-thumb { background:#333; border-radius:2px; }
-
-  /* FOOTER */
-  footer {
-    padding:28px 16px; text-align:center;
-    font-family:'DM Mono',monospace; font-size:10px; color:#2a2a2a;
-    border-top:1px solid #1a1a1a;
-  }
-
-  @media(max-width:480px) {
-    .ex-images { height:140px; }
-    .tmill-head, .tmill-row { grid-template-columns:1fr 52px 52px 52px; }
-    .week-grid { grid-template-columns:repeat(4,1fr); }
-  }
+  :root{--bg:#0a0a0a;--card:#161616;--border:#222;--accent:#e8ff4a;--accent2:#ff6b35;--accent3:#4af0ff;--text:#f0f0f0;--muted:#666;--rest-bg:#0d1a0d;--rest-accent:#4aff88;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+  .hero{background:linear-gradient(135deg,#0a0a0a 0%,#111 60%,#0d1a0d 100%);border-bottom:1px solid var(--border);padding:44px 20px 32px;position:relative;overflow:hidden;}
+  .hero::before{content:'LIFT';position:absolute;right:-10px;top:-10px;font-family:'Bebas Neue',sans-serif;font-size:200px;color:#ffffff05;line-height:1;pointer-events:none;}
+  .hero-tag{display:inline-block;background:var(--accent);color:#000;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:2px;padding:4px 12px;border-radius:2px;margin-bottom:14px;text-transform:uppercase;}
+  .hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,11vw,90px);line-height:.95;letter-spacing:2px;margin-bottom:14px;}
+  .hero h1 span{color:var(--accent);}
+  .hero-stats{display:flex;gap:24px;flex-wrap:wrap;margin-top:18px;}
+  .stat{display:flex;flex-direction:column;gap:2px;}
+  .stat-val{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--accent);letter-spacing:1px;}
+  .stat-label{font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;font-family:'DM Mono',monospace;}
+  .banner{background:#0d1800;border:1px solid #2a4400;border-left:4px solid var(--accent);padding:14px 18px;margin:18px 14px;border-radius:4px;font-size:13px;color:#aac060;line-height:1.7;}
+  .banner strong{color:var(--accent);}
+  .nav-tabs{display:flex;gap:6px;padding:0 14px 18px;overflow-x:auto;scrollbar-width:none;}
+  .nav-tabs::-webkit-scrollbar{display:none;}
+  .tab{flex-shrink:0;padding:9px 15px;background:var(--card);border:1px solid var(--border);border-radius:4px;cursor:pointer;font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);transition:all .2s;text-align:center;}
+  .tab:hover{border-color:var(--accent);color:var(--accent);}
+  .tab.active{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600;}
+  .tab.rest-tab.active{background:var(--rest-accent);color:#000;border-color:var(--rest-accent);}
+  .tab .tab-d{font-size:15px;font-weight:700;font-family:'Bebas Neue',sans-serif;letter-spacing:1px;}
+  .tab .tab-n{font-size:9px;margin-top:1px;}
+  .panel{display:none;padding:0 14px 60px;}
+  .panel.active{display:block;}
+  .day-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:22px;flex-wrap:wrap;}
+  .day-title{font-family:'Bebas Neue',sans-serif;font-size:42px;line-height:1;letter-spacing:2px;}
+  .day-focus{display:inline-block;border:1px solid var(--accent);color:var(--accent);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;padding:3px 9px;border-radius:2px;text-transform:uppercase;margin-top:6px;}
+  .day-dur{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);padding:8px 14px;background:var(--card);border:1px solid var(--border);border-radius:4px;text-align:center;}
+  .day-dur span{display:block;font-size:22px;font-family:'Bebas Neue',sans-serif;color:var(--text);letter-spacing:1px;}
+  .ph-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin:22px 0 10px;padding-left:2px;}
+  .ex{background:var(--card);border:1px solid var(--border);border-radius:6px;margin-bottom:12px;padding:16px;}
+  .ex.warmup{border-left:3px solid var(--accent3);}
+  .ex.main{border-left:3px solid var(--accent);}
+  .ex.cooldown{border-left:3px solid var(--rest-accent);}
+  .ex-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:12px;}
+  .ex-name{font-size:17px;font-weight:600;color:var(--text);line-height:1.25;}
+  .ex-badge{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:2px;flex-shrink:0;}
+  .b-warmup{background:#001a2a;color:var(--accent3);border:1px solid #003a50;}
+  .b-main{background:#1a1900;color:var(--accent);border:1px solid #3a3800;}
+  .b-cooldown{background:var(--rest-bg);color:var(--rest-accent);border:1px solid #1a4a20;}
+  .machine-tag{display:inline-block;background:#0a1420;border:1px solid #1a3050;color:#7ab0e0;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.5px;padding:4px 10px;border-radius:3px;margin-bottom:12px;}
+  .metrics{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+  .m{display:flex;flex-direction:column;background:#0d0d0d;border:1px solid #1e1e1e;border-radius:4px;padding:7px 12px;min-width:70px;}
+  .m-v{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;line-height:1;}
+  .m-k{font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
+  .cv{color:var(--accent);}.tv{color:var(--text);}.mv{color:var(--muted);}.sv{color:var(--accent2);}.dv{color:var(--accent3);}.pv{color:#c084fc;}
+  .steps-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;border-top:1px solid #1a1a1a;padding-top:12px;}
+  .steps{list-style:none;counter-reset:step;}
+  .steps li{position:relative;padding:0 0 9px 30px;font-size:13px;color:#bbb;line-height:1.55;counter-increment:step;}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:0;width:20px;height:20px;background:#1a1900;border:1px solid #3a3800;color:var(--accent);border-radius:50%;font-family:'DM Mono',monospace;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:500;}
+  .steps li strong{color:#fff;}
+  .steps.warm li::before{background:#001a2a;border-color:#003a50;color:var(--accent3);}
+  .steps.cool li::before{background:var(--rest-bg);border-color:#1a4a20;color:var(--rest-accent);}
+  .cue{margin-top:8px;padding:9px 12px;background:#140d00;border:1px solid #2a1d00;border-radius:4px;font-size:12px;color:#d0a868;line-height:1.55;}
+  .cue strong{color:var(--accent2);}
+  .tmill{background:#100a00;border:1px solid #2a1800;border-left:3px solid var(--accent2);border-radius:6px;padding:16px;margin-bottom:12px;}
+  .tmill-title{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--accent2);letter-spacing:2px;margin-bottom:14px;}
+  .tmill-head{display:grid;grid-template-columns:1fr 60px 60px 60px;gap:6px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:0 10px 6px;}
+  .tmill-row{display:grid;grid-template-columns:1fr 60px 60px 60px;gap:6px;align-items:center;background:#0a0500;border:1px solid #1a1000;border-radius:4px;padding:8px 10px;font-size:12px;margin-bottom:6px;}
+  .tmill-row .phase{font-weight:500;}
+  .tmill-row .val{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;text-align:center;}
+  .val.spd{color:var(--accent2);}.val.inc{color:var(--accent3);}.val.dur{color:var(--accent);}
+  .rest-hero{background:var(--rest-bg);border:1px solid #1a3a1a;border-radius:8px;padding:36px 24px;text-align:center;margin-bottom:16px;}
+  .rest-hero h2{font-family:'Bebas Neue',sans-serif;font-size:46px;color:var(--rest-accent);letter-spacing:3px;margin-bottom:8px;}
+  .rest-hero p{color:#6aaa78;font-size:13px;line-height:1.7;max-width:420px;margin:0 auto;}
+  .rest-tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;}
+  .rest-tip{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:14px;}
+  .rest-tip .ico{font-size:22px;margin-bottom:6px;}
+  .rest-tip h4{font-size:12px;font-weight:600;margin-bottom:4px;color:var(--rest-accent);}
+  .rest-tip p{font-size:11px;color:var(--muted);line-height:1.5;}
+  .circuit-box{background:#0a0a14;border:1px solid #1a1a30;border-radius:6px;padding:12px 14px;margin-bottom:14px;font-size:12px;color:#8888cc;line-height:1.6;}
+  .circuit-box strong{color:#aaaaff;}
+  ::-webkit-scrollbar{width:4px;height:4px;}
+  ::-webkit-scrollbar-thumb{background:#333;border-radius:2px;}
+  footer{padding:28px 14px;text-align:center;font-family:'DM Mono',monospace;font-size:10px;color:#2a2a2a;border-top:1px solid #1a1a1a;}
+  @media(max-width:480px){.tmill-head,.tmill-row{grid-template-columns:1fr 50px 50px 50px;}}
 </style>
 </head>
 <body>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-tag">⚡ Personal Training Plan — No Trainer Needed</div>
   <h1>YOUR GYM<br><span>BLUEPRINT</span></h1>
@@ -239,25 +97,8 @@
   </div>
 </div>
 
-<div class="banner">
-  <strong>📌 Golden Rules:</strong> Always warm up before lifting. Drink water between every set. For the first 2 weeks — <strong>go lighter than you think</strong> and focus on form. If you feel sharp pain (not muscle burn), stop immediately. Rest 60–90 sec between sets unless stated.
-</div>
+<div class="banner"><strong>📌 Golden Rules:</strong> Warm up before lifting. Drink water between sets. For the first 2 weeks go lighter than you think — focus on form. Sharp pain (not muscle burn) = stop immediately. Rest 60–90 sec between sets unless stated.</div>
 
-<!-- WEEK OVERVIEW -->
-<div class="week-section">
-  <div class="section-label">— Week at a glance</div>
-  <div class="week-grid">
-    <div class="wc" onclick="show('mon')"><div class="wc-d">MON</div><div class="wc-n">Chest &amp; Tri</div></div>
-    <div class="wc" onclick="show('tue')"><div class="wc-d">TUE</div><div class="wc-n">Back &amp; Bi</div></div>
-    <div class="wc" onclick="show('wed')"><div class="wc-d">WED</div><div class="wc-n">Legs &amp; Core</div></div>
-    <div class="wc rest-cell" onclick="show('thu')"><div class="wc-d">THU</div><div class="wc-n">🌿 Rest</div></div>
-    <div class="wc" onclick="show('fri')"><div class="wc-d">FRI</div><div class="wc-n">Shoulders</div></div>
-    <div class="wc" onclick="show('sat')"><div class="wc-d">SAT</div><div class="wc-n">Full Body</div></div>
-    <div class="wc rest-cell" onclick="show('sun')"><div class="wc-d">SUN</div><div class="wc-n">🌿 Rest</div></div>
-  </div>
-</div>
-
-<!-- TABS -->
 <div class="nav-tabs">
   <div class="tab active" onclick="show('mon')"><div class="tab-d">MON</div><div class="tab-n">Chest</div></div>
   <div class="tab" onclick="show('tue')"><div class="tab-d">TUE</div><div class="tab-n">Back</div></div>
@@ -268,809 +109,583 @@
   <div class="tab rest-tab" onclick="show('sun')"><div class="tab-d">SUN</div><div class="tab-n">Rest 🌿</div></div>
 </div>
 
-<!-- ============================================================ MONDAY -->
+<!-- MONDAY -->
 <div id="p-mon" class="panel active">
-  <div class="day-header">
-    <div><div class="day-title">MONDAY</div><div class="day-focus">🔥 Chest + Triceps</div></div>
-    <div class="day-dur">TOTAL<span>~65 MIN</span></div>
-  </div>
+  <div class="day-header"><div><div class="day-title">MONDAY</div><div class="day-focus">🔥 Chest + Triceps</div></div><div class="day-dur">TOTAL<span>~65 MIN</span></div></div>
 
   <div class="ph-label">— Phase 1 · Warm-Up (8 min)</div>
-
   <div class="ex warmup">
-    <div class="ex-images">
-      <div class="img-panel">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Tunturi_treadmill_t60.jpg/640px-Tunturi_treadmill_t60.jpg" alt="Treadmill machine" loading="lazy">
-        <div class="img-label">🖥 Machine</div>
-      </div>
-      <div class="img-panel">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Gait_analysis.jpg/640px-Gait_analysis.jpg" alt="Walking on treadmill" loading="lazy">
-        <div class="img-label">🧍 How to do it</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">Treadmill Walk — Easy Pace</div><span class="ex-badge b-warmup">Warm-Up</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v sv">4.5</span><span class="m-k">km/h Speed</span></div>
-        <div class="m"><span class="m-v dv">5 min</span><span class="m-k">Duration</span></div>
-        <div class="m"><span class="m-v mv">0%</span><span class="m-k">Incline</span></div>
-      </div>
-      <div class="ex-note">Comfortable walking pace — no running yet. Gets blood flowing and warms up joints. Hold the side rails if needed at first.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">Treadmill Walk — Easy Pace</div><span class="ex-badge b-warmup">Warm-Up</span></div>
+    <div class="machine-tag">🖥 Machine: Treadmill</div>
+    <div class="metrics"><div class="m"><span class="m-v sv">4.5</span><span class="m-k">km/h</span></div><div class="m"><span class="m-v dv">5 min</span><span class="m-k">Duration</span></div><div class="m"><span class="m-v mv">0%</span><span class="m-k">Incline</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps warm">
+      <li>Step onto the treadmill and clip the safety key to your shirt.</li>
+      <li>Set speed to <strong>4.5 km/h</strong> and incline to <strong>0%</strong>.</li>
+      <li>Walk upright, shoulders back, arms swinging naturally.</li>
+      <li>Breathe steadily — you should be able to talk easily.</li>
+      <li>After 5 min, do 10 arm swings forward/back + 10 arm circles each direction.</li>
+    </ol>
   </div>
 
   <div class="ph-label">— Phase 2 · Main Workout (45 min)</div>
 
   <div class="ex main">
-    <div class="ex-images">
-      <div class="img-panel">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/fifty/Bench_press_2.jpg/640px-Bench_press_2.jpg" alt="Flat bench with dumbbells" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=640&q=80'">
-        <div class="img-label">🖥 Machine / Equipment</div>
-      </div>
-      <div class="img-panel">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Incline_dumbbell_press.jpg/640px-Incline_dumbbell_press.jpg" alt="Dumbbell chest press form" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=640&q=80'">
-        <div class="img-label">🧍 How to do it</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">1. Flat Dumbbell Chest Press</div><span class="ex-badge b-main">Chest</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">4</span><span class="m-k">Sets</span></div>
-        <div class="m"><span class="m-v tv">10</span><span class="m-k">Reps</span></div>
-        <div class="m"><span class="m-v pv">2-1-2</span><span class="m-k">Tempo</span></div>
-        <div class="m"><span class="m-v mv">75s</span><span class="m-k">Rest</span></div>
-        <div class="m"><span class="m-v sv">10–12 kg</span><span class="m-k">Each dumbbell</span></div>
-      </div>
-      <div class="ex-note"><strong>Tempo 2-1-2:</strong> Lower for 2 counts → pause 1 count at chest → push up 2 counts. Lie flat on bench, feet on floor, back flat. Don't bounce the weight off chest.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">1. Flat Dumbbell Chest Press</div><span class="ex-badge b-main">Chest</span></div>
+    <div class="machine-tag">🖥 Equipment: Flat bench + 2 dumbbells (10–12 kg each)</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">4</span><span class="m-k">Sets</span></div><div class="m"><span class="m-v tv">10</span><span class="m-k">Reps</span></div><div class="m"><span class="m-v pv">2-1-2</span><span class="m-k">Tempo</span></div><div class="m"><span class="m-v mv">75s</span><span class="m-k">Rest</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Sit on the end of a flat bench, a dumbbell resting on each thigh.</li>
+      <li>Lie back, using your thighs to kick the dumbbells up to shoulder level.</li>
+      <li>Plant feet flat on the floor, keep your back flat on the bench.</li>
+      <li>Start with arms extended up, dumbbells above your chest, palms forward.</li>
+      <li><strong>Lower</strong> slowly for <strong>2 counts</strong> until level with your chest, elbows at 45°.</li>
+      <li><strong>Pause 1 count</strong> — feel the stretch in your chest.</li>
+      <li><strong>Push</strong> up for <strong>2 counts</strong> (don't lock elbows hard).</li>
+      <li>Do 10 reps. Rest 75 sec, then next set. 4 sets total.</li>
+    </ol>
+    <div class="cue"><strong>Form cue:</strong> Don't bounce the weight off your chest. Keep wrists straight.</div>
   </div>
 
   <div class="ex main">
-    <div class="ex-images">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=640&q=80" alt="Incline bench" loading="lazy">
-        <div class="img-label">🖥 Incline Bench</div>
-      </div>
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=640&q=80" alt="Incline dumbbell press" loading="lazy">
-        <div class="img-label">🧍 How to do it</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">2. Incline Dumbbell Press</div><span class="ex-badge b-main">Upper Chest</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div>
-        <div class="m"><span class="m-v tv">10</span><span class="m-k">Reps</span></div>
-        <div class="m"><span class="m-v pv">2-1-2</span><span class="m-k">Tempo</span></div>
-        <div class="m"><span class="m-v mv">75s</span><span class="m-k">Rest</span></div>
-        <div class="m"><span class="m-v sv">8–10 kg</span><span class="m-k">Each dumbbell</span></div>
-      </div>
-      <div class="ex-note">Set bench to 30–45° incline. Slightly lighter than flat press. Elbows at 45° from body — don't flare straight out. Targets the upper chest.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">2. Incline Dumbbell Press</div><span class="ex-badge b-main">Upper Chest</span></div>
+    <div class="machine-tag">🖥 Equipment: Adjustable bench (30–45°) + 2 dumbbells (8–10 kg)</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div><div class="m"><span class="m-v tv">10</span><span class="m-k">Reps</span></div><div class="m"><span class="m-v pv">2-1-2</span><span class="m-k">Tempo</span></div><div class="m"><span class="m-v mv">75s</span><span class="m-k">Rest</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Set the bench backrest to a 30–45° incline.</li>
+      <li>Sit down and kick the dumbbells up to your shoulders.</li>
+      <li>Press them up so arms are extended above your upper chest.</li>
+      <li>Lower slowly (2 counts) to the sides of your upper chest.</li>
+      <li>Pause 1 count, then press up for 2 counts.</li>
+      <li>Do 10 reps, rest 75 sec, 3 sets total.</li>
+    </ol>
+    <div class="cue"><strong>Form cue:</strong> Use lighter weight than flat press. Don't arch your lower back.</div>
   </div>
 
   <div class="ex main">
-    <div class="ex-images">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=640&q=80" alt="Pec deck / cable machine" loading="lazy">
-        <div class="img-label">🖥 Pec Deck Machine</div>
-      </div>
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1540496905036-5937c10647cc?w=640&q=80" alt="Cable flye form" loading="lazy">
-        <div class="img-label">🧍 How to do it</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">3. Pec Deck / Cable Chest Flye</div><span class="ex-badge b-main">Chest</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div>
-        <div class="m"><span class="m-v tv">12</span><span class="m-k">Reps</span></div>
-        <div class="m"><span class="m-v mv">60s</span><span class="m-k">Rest</span></div>
-      </div>
-      <div class="ex-note">Keep a slight bend in elbows. Squeeze chest at the front for 1 full second. Light weight — this is a shaping/finishing movement, not strength.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">3. Pec Deck / Machine Chest Flye</div><span class="ex-badge b-main">Chest</span></div>
+    <div class="machine-tag">🖥 Machine: Pec Deck (butterfly) machine</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div><div class="m"><span class="m-v tv">12</span><span class="m-k">Reps</span></div><div class="m"><span class="m-v mv">60s</span><span class="m-k">Rest</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Adjust the seat so the handles are at chest height.</li>
+      <li>Sit with back flat against the pad, feet flat on floor.</li>
+      <li>Grab both handles, arms out wide with a slight bend in the elbows.</li>
+      <li>Squeeze your chest to bring the handles together in front of you.</li>
+      <li><strong>Hold 1 second</strong> when they nearly touch — squeeze hard.</li>
+      <li>Slowly return (2 counts), feeling the chest stretch. 12 reps, 3 sets.</li>
+    </ol>
+    <div class="cue"><strong>Form cue:</strong> Light weight. This is a squeeze/shaping move, not a strength lift.</div>
   </div>
 
   <div class="ex main">
-    <div class="ex-images">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=640&q=80" alt="Cable machine" loading="lazy">
-        <div class="img-label">🖥 Cable Machine</div>
-      </div>
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1598971639058-fab3c3109a00?w=640&q=80" alt="Tricep pushdown form" loading="lazy">
-        <div class="img-label">🧍 Tricep Pushdown</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">4. Tricep Pushdown (Cable)</div><span class="ex-badge b-main">Triceps</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div>
-        <div class="m"><span class="m-v tv">12</span><span class="m-k">Reps</span></div>
-        <div class="m"><span class="m-v pv">1-1-2</span><span class="m-k">Tempo</span></div>
-        <div class="m"><span class="m-v mv">60s</span><span class="m-k">Rest</span></div>
-      </div>
-      <div class="ex-note">Elbows pinned to your sides — they must NOT move. Push down (1 count), hold at bottom (1 count), return slowly (2 counts). Use rope or straight bar attachment.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">4. Tricep Pushdown</div><span class="ex-badge b-main">Triceps</span></div>
+    <div class="machine-tag">🖥 Machine: Cable machine + rope or straight-bar</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div><div class="m"><span class="m-v tv">12</span><span class="m-k">Reps</span></div><div class="m"><span class="m-v pv">1-1-2</span><span class="m-k">Tempo</span></div><div class="m"><span class="m-v mv">60s</span><span class="m-k">Rest</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Attach a rope or bar to the high pulley of the cable machine.</li>
+      <li>Grab it with both hands, stand upright, feet shoulder-width.</li>
+      <li>Pin your elbows tight to your sides — they stay fixed throughout.</li>
+      <li>Push the bar down (1 count) until arms are fully straight.</li>
+      <li><strong>Hold 1 count</strong> at the bottom — squeeze the triceps.</li>
+      <li>Slowly let it rise back to chest level (2 counts). 12 reps, 3 sets.</li>
+    </ol>
+    <div class="cue"><strong>Form cue:</strong> Only forearms move. If elbows drift forward, lower the weight.</div>
   </div>
 
   <div class="ex main">
-    <div class="ex-images">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=640&q=80" alt="Dumbbell" loading="lazy">
-        <div class="img-label">🖥 Dumbbell</div>
-      </div>
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?w=640&q=80" alt="Overhead tricep extension" loading="lazy">
-        <div class="img-label">🧍 Overhead Extension</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">5. Overhead Tricep Extension</div><span class="ex-badge b-main">Triceps</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div>
-        <div class="m"><span class="m-v tv">10</span><span class="m-k">Reps</span></div>
-        <div class="m"><span class="m-v mv">60s</span><span class="m-k">Rest</span></div>
-        <div class="m"><span class="m-v sv">8–10 kg</span><span class="m-k">Dumbbell</span></div>
-      </div>
-      <div class="ex-note">Hold ONE dumbbell with both hands overhead. Lower behind head (2 counts), feel the stretch, press back up. Keep elbows pointing forward, core tight.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">5. Overhead Tricep Extension</div><span class="ex-badge b-main">Triceps</span></div>
+    <div class="machine-tag">🖥 Equipment: 1 dumbbell (8–10 kg)</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div><div class="m"><span class="m-v tv">10</span><span class="m-k">Reps</span></div><div class="m"><span class="m-v mv">60s</span><span class="m-k">Rest</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Sit or stand holding one dumbbell vertically with both hands.</li>
+      <li>Raise it straight overhead, arms extended.</li>
+      <li>Keep elbows pointing forward and close to your head.</li>
+      <li>Lower the dumbbell behind your head (2 counts) until forearms touch biceps.</li>
+      <li>Press back up to the top (2 counts), squeezing triceps. 10 reps, 3 sets.</li>
+    </ol>
+    <div class="cue"><strong>Form cue:</strong> Keep your core tight so you don't arch your back. Only forearms move.</div>
   </div>
 
   <div class="ph-label">— Phase 3 · Cardio Finisher (10 min)</div>
   <div class="tmill">
-    <div class="tmill-header">
-      <img class="tmill-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Tunturi_treadmill_t60.jpg/640px-Tunturi_treadmill_t60.jpg" alt="Treadmill" loading="lazy">
-      <div class="tmill-title">🏃 TREADMILL PROTOCOL</div>
-    </div>
+    <div class="tmill-title">🏃 TREADMILL PROTOCOL</div>
     <div class="tmill-head"><span>Phase</span><span>Speed</span><span>Incline</span><span>Time</span></div>
-    <div class="tmill-rows">
-      <div class="tmill-row"><span class="phase">Easy Walk</span><span class="val spd">4.5</span><span class="val inc">1%</span><span class="val dur">2 min</span></div>
-      <div class="tmill-row"><span class="phase">Brisk Walk</span><span class="val spd">6.0</span><span class="val inc">2%</span><span class="val dur">4 min</span></div>
-      <div class="tmill-row"><span class="phase">Power Walk / Light Jog</span><span class="val spd">7.0</span><span class="val inc">1%</span><span class="val dur">3 min</span></div>
-      <div class="tmill-row"><span class="phase">Cool Down</span><span class="val spd">4.0</span><span class="val inc">0%</span><span class="val dur">1 min</span></div>
-    </div>
+    <div class="tmill-row"><span class="phase">Easy Walk</span><span class="val spd">4.5</span><span class="val inc">1%</span><span class="val dur">2 min</span></div>
+    <div class="tmill-row"><span class="phase">Brisk Walk</span><span class="val spd">6.0</span><span class="val inc">2%</span><span class="val dur">4 min</span></div>
+    <div class="tmill-row"><span class="phase">Power Walk / Light Jog</span><span class="val spd">7.0</span><span class="val inc">1%</span><span class="val dur">3 min</span></div>
+    <div class="tmill-row"><span class="phase">Cool Down</span><span class="val spd">4.0</span><span class="val inc">0%</span><span class="val dur">1 min</span></div>
   </div>
 
   <div class="ph-label">— Phase 4 · Cool Down (5 min)</div>
   <div class="ex cooldown">
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">Chest + Shoulder Static Stretch</div><span class="ex-badge b-cooldown">Cool Down</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v dv">30s</span><span class="m-k">Hold each</span></div>
-        <div class="m"><span class="m-v cv">2</span><span class="m-k">Rounds</span></div>
-      </div>
-      <div class="ex-note">Doorway chest stretch (hold frame, lean forward) → cross-body shoulder stretch → overhead tricep stretch. Breathe slowly. Don't skip this — prevents DOMS.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">Chest + Shoulder Stretch</div><span class="ex-badge b-cooldown">Cool Down</span></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps cool">
+      <li>Doorway stretch: forearm on a door frame, gently lean forward. Hold 30s each side.</li>
+      <li>Cross-body shoulder stretch: pull one arm across your chest. Hold 30s each.</li>
+      <li>Overhead tricep stretch: reach one hand down your back, push elbow gently. 30s each.</li>
+      <li>Breathe slowly throughout. Repeat the full round twice.</li>
+    </ol>
   </div>
 </div>
 
-<!-- ============================================================ TUESDAY -->
+<!-- TUESDAY -->
 <div id="p-tue" class="panel">
-  <div class="day-header">
-    <div><div class="day-title">TUESDAY</div><div class="day-focus">💪 Back + Biceps</div></div>
-    <div class="day-dur">TOTAL<span>~65 MIN</span></div>
-  </div>
+  <div class="day-header"><div><div class="day-title">TUESDAY</div><div class="day-focus">💪 Back + Biceps</div></div><div class="day-dur">TOTAL<span>~65 MIN</span></div></div>
 
-  <div class="ph-label">— Phase 1 · Warm-Up</div>
+  <div class="ph-label">— Phase 1 · Warm-Up (8 min)</div>
   <div class="ex warmup">
-    <div class="ex-images single">
-      <div class="img-panel">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Tunturi_treadmill_t60.jpg/640px-Tunturi_treadmill_t60.jpg" alt="Treadmill" loading="lazy">
-        <div class="img-label">🖥 Treadmill — 5.5 km/h · 6 min · 1% incline</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">Treadmill Brisk Walk + Cat-Cow Stretch</div><span class="ex-badge b-warmup">Warm-Up</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v sv">5.5</span><span class="m-k">km/h</span></div>
-        <div class="m"><span class="m-v dv">6 min</span><span class="m-k">Treadmill</span></div>
-        <div class="m"><span class="m-v cv">10</span><span class="m-k">Cat-Cow reps</span></div>
-      </div>
-      <div class="ex-note">After treadmill: get on all fours, arch and round your back 10x slowly. Then sit in chair, hands behind head, rotate torso left-right 10x. Preps the spine for pulling movements.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">Treadmill Brisk Walk + Cat-Cow</div><span class="ex-badge b-warmup">Warm-Up</span></div>
+    <div class="machine-tag">🖥 Machine: Treadmill</div>
+    <div class="metrics"><div class="m"><span class="m-v sv">5.5</span><span class="m-k">km/h</span></div><div class="m"><span class="m-v dv">6 min</span><span class="m-k">Duration</span></div><div class="m"><span class="m-v mv">1%</span><span class="m-k">Incline</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps warm">
+      <li>Walk on the treadmill at 5.5 km/h, 1% incline, for 6 minutes.</li>
+      <li>Get on all fours. Arch your back up like a cat (exhale).</li>
+      <li>Then drop your belly and lift your head (inhale). That's 1 Cat-Cow rep.</li>
+      <li>Do 10 slow reps to loosen your spine before pulling.</li>
+      <li>Finish with 10 seated torso rotations, hands behind head.</li>
+    </ol>
   </div>
 
-  <div class="ph-label">— Phase 2 · Main Workout</div>
+  <div class="ph-label">— Phase 2 · Main Workout (45 min)</div>
 
   <div class="ex main">
-    <div class="ex-images">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=640&q=80" alt="Lat pulldown machine" loading="lazy">
-        <div class="img-label">🖥 Lat Pulldown Machine</div>
-      </div>
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=640&q=80" alt="Lat pulldown form" loading="lazy">
-        <div class="img-label">🧍 How to do it</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">1. Lat Pulldown (Cable Machine)</div><span class="ex-badge b-main">Back — Lats</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">4</span><span class="m-k">Sets</span></div>
-        <div class="m"><span class="m-v tv">10</span><span class="m-k">Reps</span></div>
-        <div class="m"><span class="m-v pv">2-1-2</span><span class="m-k">Tempo</span></div>
-        <div class="m"><span class="m-v mv">75s</span><span class="m-k">Rest</span></div>
-      </div>
-      <div class="ex-note"><strong>Wide grip.</strong> Lean back 10°, pull bar to upper chest, squeeze lats at bottom for 1 count, return slowly 2 counts. Don't yank — imagine pulling your elbows to your hips.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">1. Lat Pulldown</div><span class="ex-badge b-main">Back — Lats</span></div>
+    <div class="machine-tag">🖥 Machine: Lat Pulldown (cable), wide bar</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">4</span><span class="m-k">Sets</span></div><div class="m"><span class="m-v tv">10</span><span class="m-k">Reps</span></div><div class="m"><span class="m-v pv">2-1-2</span><span class="m-k">Tempo</span></div><div class="m"><span class="m-v mv">75s</span><span class="m-k">Rest</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Adjust the thigh pad so your legs are locked snugly underneath.</li>
+      <li>Grab the wide bar with an overhand grip, hands wider than shoulders.</li>
+      <li>Sit down, lean back about 10°, chest up.</li>
+      <li>Pull the bar down (2 counts) to your upper chest, driving elbows down and back.</li>
+      <li><strong>Squeeze your lats 1 count</strong> at the bottom.</li>
+      <li>Let the bar rise slowly (2 counts) until arms are nearly straight. 10 reps, 4 sets.</li>
+    </ol>
+    <div class="cue"><strong>Form cue:</strong> Don't yank with arms or swing your body. Think "pull elbows to hips."</div>
   </div>
 
   <div class="ex main">
-    <div class="ex-images">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=640&q=80" alt="Cable row machine" loading="lazy">
-        <div class="img-label">🖥 Seated Cable Row</div>
-      </div>
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=640&q=80" alt="Seated row form" loading="lazy">
-        <div class="img-label">🧍 Pull to belly button</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">2. Seated Cable Row</div><span class="ex-badge b-main">Back — Mid</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">4</span><span class="m-k">Sets</span></div>
-        <div class="m"><span class="m-v tv">10</span><span class="m-k">Reps</span></div>
-        <div class="m"><span class="m-v pv">1-2-2</span><span class="m-k">Tempo</span></div>
-        <div class="m"><span class="m-v mv">75s</span><span class="m-k">Rest</span></div>
-      </div>
-      <div class="ex-note">Pull handle to belly button. Hold 2 counts with elbows behind body. Return slowly. Sit tall — no rounding the back. Feel the squeeze between shoulder blades.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">2. Seated Cable Row</div><span class="ex-badge b-main">Back — Mid</span></div>
+    <div class="machine-tag">🖥 Machine: Seated row (cable), V-handle</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">4</span><span class="m-k">Sets</span></div><div class="m"><span class="m-v tv">10</span><span class="m-k">Reps</span></div><div class="m"><span class="m-v pv">1-2-2</span><span class="m-k">Tempo</span></div><div class="m"><span class="m-v mv">75s</span><span class="m-k">Rest</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Sit on the bench, feet on the platform, knees slightly bent.</li>
+      <li>Grab the V-handle, sit tall with a straight back.</li>
+      <li>Pull the handle to your belly button (1 count), elbows driving straight back.</li>
+      <li><strong>Hold 2 counts</strong>, squeezing your shoulder blades together.</li>
+      <li>Slowly extend arms forward (2 counts), keeping your back upright. 10 reps, 4 sets.</li>
+    </ol>
+    <div class="cue"><strong>Form cue:</strong> Don't round your back or lean far back. Keep the torso still.</div>
   </div>
 
   <div class="ex main">
-    <div class="ex-images">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=640&q=80" alt="Flat bench + dumbbell" loading="lazy">
-        <div class="img-label">🖥 Flat Bench + Dumbbell</div>
-      </div>
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=640&q=80" alt="Single arm row" loading="lazy">
-        <div class="img-label">🧍 Single Arm Row</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">3. Single-Arm Dumbbell Row</div><span class="ex-badge b-main">Back</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div>
-        <div class="m"><span class="m-v tv">10</span><span class="m-k">Each side</span></div>
-        <div class="m"><span class="m-v sv">14–18 kg</span><span class="m-k">Dumbbell</span></div>
-        <div class="m"><span class="m-v mv">60s</span><span class="m-k">Rest</span></div>
-      </div>
-      <div class="ex-note">One hand + knee on bench for support. Back flat. Pull dumbbell to your hip — not your shoulder. Lead with elbow, not hand. Full range of motion.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">3. Single-Arm Dumbbell Row</div><span class="ex-badge b-main">Back</span></div>
+    <div class="machine-tag">🖥 Equipment: Flat bench + 1 dumbbell (14–18 kg)</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div><div class="m"><span class="m-v tv">10</span><span class="m-k">Each side</span></div><div class="m"><span class="m-v mv">60s</span><span class="m-k">Rest</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Place your right knee and right hand on a flat bench.</li>
+      <li>Left foot on the floor, back flat and parallel to the ground.</li>
+      <li>Hold the dumbbell in your left hand, arm hanging straight down.</li>
+      <li>Pull the dumbbell up to your hip (1 count), leading with your elbow.</li>
+      <li>Squeeze at the top, then lower slowly (2 counts).</li>
+      <li>Do 10 reps, switch sides. That's 1 set. 3 sets total.</li>
+    </ol>
+    <div class="cue"><strong>Form cue:</strong> Pull toward your hip, not your shoulder. Keep your back flat — don't twist.</div>
   </div>
 
   <div class="ex main">
-    <div class="ex-images">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=640&q=80" alt="Dumbbells" loading="lazy">
-        <div class="img-label">🖥 Dumbbells</div>
-      </div>
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1598971639058-fab3c3109a00?w=640&q=80" alt="Bicep curl form" loading="lazy">
-        <div class="img-label">🧍 Bicep Curl</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">4. Dumbbell Bicep Curl</div><span class="ex-badge b-main">Biceps</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div>
-        <div class="m"><span class="m-v tv">12</span><span class="m-k">Reps</span></div>
-        <div class="m"><span class="m-v pv">1-1-3</span><span class="m-k">Tempo</span></div>
-        <div class="m"><span class="m-v sv">10–12 kg</span><span class="m-k">Each</span></div>
-        <div class="m"><span class="m-v mv">60s</span><span class="m-k">Rest</span></div>
-      </div>
-      <div class="ex-note"><strong>Slow negative = more muscle:</strong> Curl up fast (1), hold peak and squeeze (1), lower VERY slowly (3 counts). No swinging the arms or body.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">4. Dumbbell Bicep Curl</div><span class="ex-badge b-main">Biceps</span></div>
+    <div class="machine-tag">🖥 Equipment: 2 dumbbells (10–12 kg each)</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div><div class="m"><span class="m-v tv">12</span><span class="m-k">Reps</span></div><div class="m"><span class="m-v pv">1-1-3</span><span class="m-k">Tempo</span></div><div class="m"><span class="m-v mv">60s</span><span class="m-k">Rest</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Stand tall, a dumbbell in each hand, arms at your sides, palms forward.</li>
+      <li>Keep elbows pinned at your sides.</li>
+      <li>Curl both dumbbells up (1 count) toward your shoulders.</li>
+      <li><strong>Squeeze 1 count</strong> at the top.</li>
+      <li><strong>Lower very slowly for 3 counts</strong> — this is where muscle is built.</li>
+      <li>Do 12 reps, rest 60 sec, 3 sets.</li>
+    </ol>
+    <div class="cue"><strong>Form cue:</strong> No swinging or using your back. If you swing, it's too heavy.</div>
   </div>
 
   <div class="ex main">
-    <div class="ex-images single">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?w=640&q=80" alt="Hammer curl" loading="lazy">
-        <div class="img-label">🧍 Hammer Curl — Thumb pointing up</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">5. Hammer Curl</div><span class="ex-badge b-main">Biceps + Forearm</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div>
-        <div class="m"><span class="m-v tv">10</span><span class="m-k">Each arm</span></div>
-        <div class="m"><span class="m-v mv">60s</span><span class="m-k">Rest</span></div>
-      </div>
-      <div class="ex-note">Neutral grip — thumb facing up. Alternate arms. Builds the outer bicep and forearm. Same weight as regular curl. Controlled movement only.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">5. Hammer Curl</div><span class="ex-badge b-main">Biceps + Forearm</span></div>
+    <div class="machine-tag">🖥 Equipment: 2 dumbbells (10–12 kg each)</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div><div class="m"><span class="m-v tv">10</span><span class="m-k">Each arm</span></div><div class="m"><span class="m-v mv">60s</span><span class="m-k">Rest</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Stand holding dumbbells with a neutral grip — thumbs pointing up.</li>
+      <li>Keep this grip throughout (like holding two hammers).</li>
+      <li>Curl one dumbbell up toward your shoulder (1 count).</li>
+      <li>Lower it slowly (2 counts), then curl the other arm.</li>
+      <li>Alternate arms for 10 reps each. 3 sets.</li>
+    </ol>
+    <div class="cue"><strong>Form cue:</strong> Targets the outer bicep and forearm. Elbows stay still.</div>
   </div>
 
   <div class="ph-label">— Phase 3 · Cardio Finisher (10 min)</div>
   <div class="tmill">
-    <div class="tmill-header">
-      <img class="tmill-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Tunturi_treadmill_t60.jpg/640px-Tunturi_treadmill_t60.jpg" alt="Treadmill" loading="lazy">
-      <div class="tmill-title">🏃 TREADMILL PROTOCOL</div>
-    </div>
+    <div class="tmill-title">🏃 TREADMILL PROTOCOL</div>
     <div class="tmill-head"><span>Phase</span><span>Speed</span><span>Incline</span><span>Time</span></div>
-    <div class="tmill-rows">
-      <div class="tmill-row"><span class="phase">Walk</span><span class="val spd">5.0</span><span class="val inc">2%</span><span class="val dur">3 min</span></div>
-      <div class="tmill-row"><span class="phase">Power Walk</span><span class="val spd">6.5</span><span class="val inc">3%</span><span class="val dur">5 min</span></div>
-      <div class="tmill-row"><span class="phase">Cool Down</span><span class="val spd">4.0</span><span class="val inc">0%</span><span class="val dur">2 min</span></div>
-    </div>
+    <div class="tmill-row"><span class="phase">Walk</span><span class="val spd">5.0</span><span class="val inc">2%</span><span class="val dur">3 min</span></div>
+    <div class="tmill-row"><span class="phase">Power Walk</span><span class="val spd">6.5</span><span class="val inc">3%</span><span class="val dur">5 min</span></div>
+    <div class="tmill-row"><span class="phase">Cool Down</span><span class="val spd">4.0</span><span class="val inc">0%</span><span class="val dur">2 min</span></div>
   </div>
 </div>
 
-<!-- ============================================================ WEDNESDAY -->
+<!-- WEDNESDAY -->
 <div id="p-wed" class="panel">
-  <div class="day-header">
-    <div><div class="day-title">WEDNESDAY</div><div class="day-focus">🦵 Legs + Core</div></div>
-    <div class="day-dur">TOTAL<span>~70 MIN</span></div>
-  </div>
+  <div class="day-header"><div><div class="day-title">WEDNESDAY</div><div class="day-focus">🦵 Legs + Core</div></div><div class="day-dur">TOTAL<span>~70 MIN</span></div></div>
 
-  <div class="ph-label">— Phase 1 · Warm-Up</div>
+  <div class="ph-label">— Phase 1 · Warm-Up (8 min)</div>
   <div class="ex warmup">
-    <div class="ex-images single">
-      <div class="img-panel">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Tunturi_treadmill_t60.jpg/640px-Tunturi_treadmill_t60.jpg" alt="Treadmill" loading="lazy">
-        <div class="img-label">🖥 Treadmill Incline Walk — 5.0 km/h · 5 min · 4% incline</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">Incline Treadmill Walk + Hip Circles</div><span class="ex-badge b-warmup">Warm-Up</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v sv">5.0</span><span class="m-k">km/h</span></div>
-        <div class="m"><span class="m-v dv">5 min</span><span class="m-k">Duration</span></div>
-        <div class="m"><span class="m-v cv">4%</span><span class="m-k">Incline</span></div>
-      </div>
-      <div class="ex-note">Incline activates glutes before leg day. After: stand and do 10 big hip circles each direction + 15 leg swings per leg. Opens up hips for squatting.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">Incline Treadmill Walk + Hip Circles</div><span class="ex-badge b-warmup">Warm-Up</span></div>
+    <div class="machine-tag">🖥 Machine: Treadmill</div>
+    <div class="metrics"><div class="m"><span class="m-v sv">5.0</span><span class="m-k">km/h</span></div><div class="m"><span class="m-v dv">5 min</span><span class="m-k">Duration</span></div><div class="m"><span class="m-v cv">4%</span><span class="m-k">Incline</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps warm">
+      <li>Walk at 5.0 km/h with a 4% incline for 5 minutes (activates glutes).</li>
+      <li>Step off. Hold a wall and swing each leg forward/back 15 times.</li>
+      <li>Then swing each leg side-to-side 15 times.</li>
+      <li>Finish with 10 big hip circles in each direction.</li>
+    </ol>
   </div>
 
-  <div class="ph-label">— Phase 2 · Main Workout</div>
+  <div class="ph-label">— Phase 2 · Main Workout (50 min)</div>
 
   <div class="ex main">
-    <div class="ex-images">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=640&q=80" alt="Leg press machine" loading="lazy">
-        <div class="img-label">🖥 Leg Press Machine</div>
-      </div>
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?w=640&q=80" alt="Leg press form" loading="lazy">
-        <div class="img-label">🧍 Feet shoulder-width · 90° bend</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">1. Leg Press Machine</div><span class="ex-badge b-main">Quads + Glutes</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">4</span><span class="m-k">Sets</span></div>
-        <div class="m"><span class="m-v tv">12</span><span class="m-k">Reps</span></div>
-        <div class="m"><span class="m-v pv">3-1-2</span><span class="m-k">Tempo</span></div>
-        <div class="m"><span class="m-v mv">90s</span><span class="m-k">Rest</span></div>
-      </div>
-      <div class="ex-note"><strong>Safest heavy leg exercise for beginners.</strong> Lower sled slowly (3 counts) until knees hit 90°. Never lock knees at top. Feet shoulder-width on platform.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">1. Leg Press</div><span class="ex-badge b-main">Quads + Glutes</span></div>
+    <div class="machine-tag">🖥 Machine: 45° Leg Press machine</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">4</span><span class="m-k">Sets</span></div><div class="m"><span class="m-v tv">12</span><span class="m-k">Reps</span></div><div class="m"><span class="m-v pv">3-1-2</span><span class="m-k">Tempo</span></div><div class="m"><span class="m-v mv">90s</span><span class="m-k">Rest</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Sit in the machine, back and head flat against the pad.</li>
+      <li>Place feet shoulder-width on the platform, mid-foot.</li>
+      <li>Push the platform up and release the safety handles.</li>
+      <li><strong>Lower slowly (3 counts)</strong> until your knees reach about 90°.</li>
+      <li>Pause 1 count, then push back up (2 counts) through your heels.</li>
+      <li><strong>Don't lock your knees</strong> at the top. 12 reps, 4 sets, rest 90 sec.</li>
+    </ol>
+    <div class="cue"><strong>Form cue:</strong> Knees track in line with your toes — don't let them cave inward.</div>
   </div>
 
   <div class="ex main">
-    <div class="ex-images">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=640&q=80" alt="Dumbbell" loading="lazy">
-        <div class="img-label">🖥 One Heavy Dumbbell</div>
-      </div>
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?w=640&q=80" alt="Goblet squat form" loading="lazy">
-        <div class="img-label">🧍 Goblet Squat</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">2. Goblet Squat (Dumbbell)</div><span class="ex-badge b-main">Quads + Glutes + Core</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div>
-        <div class="m"><span class="m-v tv">10</span><span class="m-k">Reps</span></div>
-        <div class="m"><span class="m-v pv">3-1-1</span><span class="m-k">Tempo</span></div>
-        <div class="m"><span class="m-v sv">14–20 kg</span><span class="m-k">Dumbbell</span></div>
-        <div class="m"><span class="m-v mv">75s</span><span class="m-k">Rest</span></div>
-      </div>
-      <div class="ex-note">Hold dumbbell at chest with both hands. Feet shoulder-width. Lower SLOWLY (3 counts) until thighs parallel. Chest tall, knees track over toes. Best beginner squat variation.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">2. Goblet Squat</div><span class="ex-badge b-main">Quads + Glutes + Core</span></div>
+    <div class="machine-tag">🖥 Equipment: 1 dumbbell (14–20 kg)</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div><div class="m"><span class="m-v tv">10</span><span class="m-k">Reps</span></div><div class="m"><span class="m-v pv">3-1-1</span><span class="m-k">Tempo</span></div><div class="m"><span class="m-v mv">75s</span><span class="m-k">Rest</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Hold one dumbbell vertically against your chest, both hands cupping the top.</li>
+      <li>Stand with feet shoulder-width, toes slightly pointed out.</li>
+      <li>Keep your chest tall and core braced.</li>
+      <li><strong>Lower slowly (3 counts)</strong> by pushing hips back and bending knees, until thighs are parallel.</li>
+      <li>Pause 1 count at the bottom.</li>
+      <li>Drive up through your heels (1 count) to standing. 10 reps, 3 sets.</li>
+    </ol>
+    <div class="cue"><strong>Form cue:</strong> Heels flat on the floor. Knees track over toes, chest stays up.</div>
   </div>
 
   <div class="ex main">
-    <div class="ex-images">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1540496905036-5937c10647cc?w=640&q=80" alt="Leg curl machine" loading="lazy">
-        <div class="img-label">🖥 Lying Leg Curl Machine</div>
-      </div>
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=640&q=80" alt="Leg curl form" loading="lazy">
-        <div class="img-label">🧍 Curl and lower slowly</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">3. Lying Leg Curl Machine</div><span class="ex-badge b-main">Hamstrings</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div>
-        <div class="m"><span class="m-v tv">12</span><span class="m-k">Reps</span></div>
-        <div class="m"><span class="m-v pv">1-1-3</span><span class="m-k">Tempo</span></div>
-        <div class="m"><span class="m-v mv">60s</span><span class="m-k">Rest</span></div>
-      </div>
-      <div class="ex-note">Curl up (1 count), hold at top (1 count), lower VERY slowly (3 counts). Don't lift hips off pad. Hamstrings often underworked — focus here.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">3. Lying Leg Curl</div><span class="ex-badge b-main">Hamstrings</span></div>
+    <div class="machine-tag">🖥 Machine: Lying Leg Curl machine</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div><div class="m"><span class="m-v tv">12</span><span class="m-k">Reps</span></div><div class="m"><span class="m-v pv">1-1-3</span><span class="m-k">Tempo</span></div><div class="m"><span class="m-v mv">60s</span><span class="m-k">Rest</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Lie face down on the machine, ankles under the padded roller.</li>
+      <li>Adjust the roller so it sits just above your heels.</li>
+      <li>Grip the handles and keep your hips pressed into the pad.</li>
+      <li>Curl your heels up toward your glutes (1 count).</li>
+      <li>Squeeze 1 count at the top.</li>
+      <li><strong>Lower very slowly (3 counts).</strong> 12 reps, 3 sets.</li>
+    </ol>
+    <div class="cue"><strong>Form cue:</strong> Don't lift your hips off the pad. Control the negative.</div>
   </div>
 
   <div class="ex main">
-    <div class="ex-images single">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1598971639058-fab3c3109a00?w=640&q=80" alt="Calf raise" loading="lazy">
-        <div class="img-label">🧍 Calf Raise — Rise on toes, hold 2 counts at top</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">4. Standing Calf Raises</div><span class="ex-badge b-main">Calves</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div>
-        <div class="m"><span class="m-v tv">15</span><span class="m-k">Reps</span></div>
-        <div class="m"><span class="m-v pv">1-2-2</span><span class="m-k">Tempo</span></div>
-        <div class="m"><span class="m-v mv">45s</span><span class="m-k">Rest</span></div>
-      </div>
-      <div class="ex-note">Rise on toes, hold 2 counts at top, lower 2 counts. Let heel drop below step for full range. Can use calf raise machine or smith machine or just bodyweight on a step.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">4. Standing Calf Raise</div><span class="ex-badge b-main">Calves</span></div>
+    <div class="machine-tag">🖥 Machine: Calf raise / Smith machine, or a step</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div><div class="m"><span class="m-v tv">15</span><span class="m-k">Reps</span></div><div class="m"><span class="m-v pv">1-2-2</span><span class="m-k">Tempo</span></div><div class="m"><span class="m-v mv">45s</span><span class="m-k">Rest</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Stand with the balls of your feet on the edge of a platform or step.</li>
+      <li>Let your heels drop down below the step for a full stretch.</li>
+      <li>Rise up onto your toes as high as you can (1 count).</li>
+      <li><strong>Hold 2 counts</strong> at the top, squeezing the calves.</li>
+      <li>Lower slowly (2 counts) back to the stretched position. 15 reps, 3 sets.</li>
+    </ol>
+    <div class="cue"><strong>Form cue:</strong> Full range of motion is key. Don't bounce.</div>
   </div>
 
   <div class="ex main">
-    <div class="ex-images single">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1571019613576-2b22c76fd955?w=640&q=80" alt="Plank" loading="lazy">
-        <div class="img-label">🧍 Plank — Body straight, don't let hips sag</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">5. Plank</div><span class="ex-badge b-main">Core</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div>
-        <div class="m"><span class="m-v dv">30s</span><span class="m-k">Hold</span></div>
-        <div class="m"><span class="m-v mv">45s</span><span class="m-k">Rest</span></div>
-      </div>
-      <div class="ex-note">Forearms on floor, body straight like a board. Don't let hips sag or shoot up. Breathe normally. Week 1: 30s. Increase by 5s each week. Target: 60s by week 4.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">5. Plank</div><span class="ex-badge b-main">Core</span></div>
+    <div class="machine-tag">🧍 Bodyweight — mat only</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div><div class="m"><span class="m-v dv">30s</span><span class="m-k">Hold</span></div><div class="m"><span class="m-v mv">45s</span><span class="m-k">Rest</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Get on the mat with forearms flat, elbows under your shoulders.</li>
+      <li>Extend your legs back, balancing on your toes.</li>
+      <li>Form a straight line from head to heels — squeeze glutes and abs.</li>
+      <li>Hold for 30 seconds, breathing normally.</li>
+      <li>Rest 45 sec, repeat for 3 sets.</li>
+    </ol>
+    <div class="cue"><strong>Form cue:</strong> Don't let hips sag or pike up. Add 5 sec each week — target 60s by week 4.</div>
   </div>
 
   <div class="ex main">
-    <div class="ex-images single">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=640&q=80" alt="Dead bug core exercise" loading="lazy">
-        <div class="img-label">🧍 Dead Bug — Back flat on floor at all times</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">6. Dead Bug</div><span class="ex-badge b-main">Core — Deep</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div>
-        <div class="m"><span class="m-v tv">8</span><span class="m-k">Each side</span></div>
-        <div class="m"><span class="m-v mv">45s</span><span class="m-k">Rest</span></div>
-      </div>
-      <div class="ex-note">Lie on back, arms up, knees bent 90°. Slowly lower opposite arm + leg (4 counts) until just above floor. Return. Lower back MUST stay flat. Better for back health than crunches.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">6. Dead Bug</div><span class="ex-badge b-main">Core — Deep</span></div>
+    <div class="machine-tag">🧍 Bodyweight — mat only</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div><div class="m"><span class="m-v tv">8</span><span class="m-k">Each side</span></div><div class="m"><span class="m-v mv">45s</span><span class="m-k">Rest</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Lie on your back, arms pointing straight up to the ceiling.</li>
+      <li>Lift legs so knees are bent at 90° (shins parallel to floor).</li>
+      <li>Press your lower back flat into the floor — keep it there.</li>
+      <li>Slowly lower your right arm overhead AND straighten your left leg (4 counts).</li>
+      <li>Return to start, then do the opposite arm/leg. That's 1 rep each side.</li>
+      <li>Do 8 each side, 3 sets.</li>
+    </ol>
+    <div class="cue"><strong>Form cue:</strong> If your back arches off the floor, slow down or reduce range.</div>
   </div>
 </div>
 
-<!-- ============================================================ THURSDAY -->
+<!-- THURSDAY -->
 <div id="p-thu" class="panel">
-  <div class="day-header">
-    <div><div class="day-title">THURSDAY</div><div class="day-focus" style="border-color:var(--rest-accent);color:var(--rest-accent);">🌿 Active Rest</div></div>
-  </div>
-  <div class="rest-hero">
-    <h2>REST & RECOVER</h2>
-    <p>Muscles grow during rest, not during the workout. Today is just as important as gym days. Stay lightly active but no heavy lifting.</p>
-  </div>
+  <div class="day-header"><div><div class="day-title">THURSDAY</div><div class="day-focus" style="border-color:var(--rest-accent);color:var(--rest-accent);">🌿 Active Rest</div></div></div>
+  <div class="rest-hero"><h2>REST & RECOVER</h2><p>Muscles grow during rest, not the workout. Today is as important as gym days. Stay lightly active — no heavy lifting.</p></div>
   <div class="rest-tips">
     <div class="rest-tip"><div class="ico">🚶</div><h4>Light Walk</h4><p>20–30 min slow walk outside. Keeps blood flowing without taxing muscles.</p></div>
-    <div class="rest-tip"><div class="ico">💧</div><h4>Hydrate</h4><p>Aim for 3–4 litres of water. Recovery requires hydration.</p></div>
-    <div class="rest-tip"><div class="ico">🧘</div><h4>Stretch</h4><p>10–15 min light stretching. Focus on sore areas from Mon–Wed.</p></div>
+    <div class="rest-tip"><div class="ico">💧</div><h4>Hydrate</h4><p>Aim for 3–4 litres of water. Recovery needs hydration.</p></div>
+    <div class="rest-tip"><div class="ico">🧘</div><h4>Stretch</h4><p>10–15 min light stretching of sore areas from Mon–Wed.</p></div>
     <div class="rest-tip"><div class="ico">😴</div><h4>Sleep</h4><p>7–9 hours. 80% of muscle repair happens during sleep.</p></div>
-    <div class="rest-tip"><div class="ico">🍗</div><h4>Eat Protein</h4><p>Chicken, eggs, dal, paneer. Muscles are repairing right now.</p></div>
-    <div class="rest-tip"><div class="ico">🚫</div><h4>Avoid</h4><p>Heavy lifting, intense cardio, alcohol. Don't undo your week.</p></div>
+    <div class="rest-tip"><div class="ico">🍗</div><h4>Eat Protein</h4><p>Chicken, eggs, dal, paneer. Muscles repair right now.</p></div>
+    <div class="rest-tip"><div class="ico">🚫</div><h4>Avoid</h4><p>Heavy lifting, intense cardio, alcohol.</p></div>
   </div>
 </div>
 
-<!-- ============================================================ FRIDAY -->
+<!-- FRIDAY -->
 <div id="p-fri" class="panel">
-  <div class="day-header">
-    <div><div class="day-title">FRIDAY</div><div class="day-focus">🎯 Shoulders + Traps</div></div>
-    <div class="day-dur">TOTAL<span>~65 MIN</span></div>
-  </div>
+  <div class="day-header"><div><div class="day-title">FRIDAY</div><div class="day-focus">🎯 Shoulders + Traps</div></div><div class="day-dur">TOTAL<span>~65 MIN</span></div></div>
 
-  <div class="ph-label">— Phase 1 · Warm-Up</div>
+  <div class="ph-label">— Phase 1 · Warm-Up (8 min)</div>
   <div class="ex warmup">
-    <div class="ex-images single">
-      <div class="img-panel">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Tunturi_treadmill_t60.jpg/640px-Tunturi_treadmill_t60.jpg" alt="Treadmill" loading="lazy">
-        <div class="img-label">🖥 Treadmill — 5.0 km/h · 5 min + Band Pull-Aparts</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">Treadmill Walk + Shoulder Activation</div><span class="ex-badge b-warmup">Warm-Up</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v sv">5.0</span><span class="m-k">km/h</span></div>
-        <div class="m"><span class="m-v dv">5 min</span><span class="m-k">Duration</span></div>
-      </div>
-      <div class="ex-note">After treadmill: hold a resistance band or towel in front, pull apart to sides 15x. Then do 10 arm circles each direction. Activates rear delts and rotator cuff before overhead pressing.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">Treadmill Walk + Band Pull-Aparts</div><span class="ex-badge b-warmup">Warm-Up</span></div>
+    <div class="machine-tag">🖥 Machine: Treadmill + resistance band/towel</div>
+    <div class="metrics"><div class="m"><span class="m-v sv">5.0</span><span class="m-k">km/h</span></div><div class="m"><span class="m-v dv">5 min</span><span class="m-k">Duration</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps warm">
+      <li>Walk at 5.0 km/h for 5 minutes.</li>
+      <li>Hold a band or towel in front of you at shoulder height, hands apart.</li>
+      <li>Pull your hands apart, squeezing shoulder blades, then return. Do 15 reps.</li>
+      <li>Finish with 10 arm circles each direction.</li>
+    </ol>
   </div>
 
-  <div class="ph-label">— Phase 2 · Main Workout</div>
+  <div class="ph-label">— Phase 2 · Main Workout (45 min)</div>
 
   <div class="ex main">
-    <div class="ex-images">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=640&q=80" alt="Seated bench + dumbbells" loading="lazy">
-        <div class="img-label">🖥 Seated Bench + Dumbbells</div>
-      </div>
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=640&q=80" alt="Shoulder press form" loading="lazy">
-        <div class="img-label">🧍 Press straight up</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">1. Seated Dumbbell Shoulder Press</div><span class="ex-badge b-main">Shoulders</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">4</span><span class="m-k">Sets</span></div>
-        <div class="m"><span class="m-v tv">10</span><span class="m-k">Reps</span></div>
-        <div class="m"><span class="m-v pv">2-1-2</span><span class="m-k">Tempo</span></div>
-        <div class="m"><span class="m-v sv">8–10 kg</span><span class="m-k">Each</span></div>
-        <div class="m"><span class="m-v mv">75s</span><span class="m-k">Rest</span></div>
-      </div>
-      <div class="ex-note">Sit upright on bench with back support. Press dumbbells straight up (slight inward arc). Don't flare elbows too wide. Lower controlled 2 counts.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">1. Seated Dumbbell Shoulder Press</div><span class="ex-badge b-main">Shoulders</span></div>
+    <div class="machine-tag">🖥 Equipment: Bench with back support + 2 dumbbells (8–10 kg)</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">4</span><span class="m-k">Sets</span></div><div class="m"><span class="m-v tv">10</span><span class="m-k">Reps</span></div><div class="m"><span class="m-v pv">2-1-2</span><span class="m-k">Tempo</span></div><div class="m"><span class="m-v mv">75s</span><span class="m-k">Rest</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Set a bench upright and sit with your back fully supported.</li>
+      <li>Raise the dumbbells to shoulder height, palms facing forward.</li>
+      <li>Press both dumbbells straight up (2 counts) until arms nearly extended.</li>
+      <li>Pause 1 count at the top.</li>
+      <li>Lower back to shoulder level (2 counts). 10 reps, 4 sets.</li>
+    </ol>
+    <div class="cue"><strong>Form cue:</strong> Don't flare elbows too wide or arch your back. Core tight.</div>
   </div>
 
   <div class="ex main">
-    <div class="ex-images">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=640&q=80" alt="Light dumbbells" loading="lazy">
-        <div class="img-label">🖥 Light Dumbbells (5–6 kg)</div>
-      </div>
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1598971639058-fab3c3109a00?w=640&q=80" alt="Lateral raise form" loading="lazy">
-        <div class="img-label">🧍 Raise to shoulder height only</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">2. Dumbbell Lateral Raise</div><span class="ex-badge b-main">Side Delts</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">4</span><span class="m-k">Sets</span></div>
-        <div class="m"><span class="m-v tv">12</span><span class="m-k">Reps</span></div>
-        <div class="m"><span class="m-v pv">2-1-3</span><span class="m-k">Tempo</span></div>
-        <div class="m"><span class="m-v sv">5–6 kg</span><span class="m-k">LIGHT</span></div>
-        <div class="m"><span class="m-v mv">60s</span><span class="m-k">Rest</span></div>
-      </div>
-      <div class="ex-note"><strong>Most important shoulder exercise.</strong> Use LIGHT weight. Raise arms to shoulder height (2 counts), hold (1), LOWER SLOWLY (3 counts). Elbows slightly bent. Don't shrug shoulders up.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">2. Dumbbell Lateral Raise</div><span class="ex-badge b-main">Side Delts</span></div>
+    <div class="machine-tag">🖥 Equipment: 2 LIGHT dumbbells (5–6 kg)</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">4</span><span class="m-k">Sets</span></div><div class="m"><span class="m-v tv">12</span><span class="m-k">Reps</span></div><div class="m"><span class="m-v pv">2-1-3</span><span class="m-k">Tempo</span></div><div class="m"><span class="m-v mv">60s</span><span class="m-k">Rest</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Stand tall, a light dumbbell in each hand at your sides.</li>
+      <li>Keep a slight bend in your elbows.</li>
+      <li>Raise both arms out to the sides (2 counts) until at shoulder height.</li>
+      <li>Pause 1 count — pinkies slightly higher than thumbs.</li>
+      <li><strong>Lower very slowly (3 counts).</strong> 12 reps, 4 sets.</li>
+    </ol>
+    <div class="cue"><strong>Form cue:</strong> Light weight — this is the #1 shoulder-width builder. Don't shrug or swing.</div>
   </div>
 
   <div class="ex main">
-    <div class="ex-images">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=640&q=80" alt="Cable machine" loading="lazy">
-        <div class="img-label">🖥 Cable Machine — Face height, rope attachment</div>
-      </div>
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=640&q=80" alt="Face pull form" loading="lazy">
-        <div class="img-label">🧍 Pull to face, elbows flare out</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">3. Face Pull (Cable Rope)</div><span class="ex-badge b-main">Rear Delts + Rotator Cuff</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div>
-        <div class="m"><span class="m-v tv">15</span><span class="m-k">Reps</span></div>
-        <div class="m"><span class="m-v mv">60s</span><span class="m-k">Rest</span></div>
-      </div>
-      <div class="ex-note">Set cable at face height with rope. Pull to face, elbows flare out at sides. Pause and squeeze rear delts. Light weight — this is a health/posture exercise. Prevents shoulder injury long-term.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">3. Face Pull</div><span class="ex-badge b-main">Rear Delts + Rotator Cuff</span></div>
+    <div class="machine-tag">🖥 Machine: Cable machine + rope, set at face height</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div><div class="m"><span class="m-v tv">15</span><span class="m-k">Reps</span></div><div class="m"><span class="m-v mv">60s</span><span class="m-k">Rest</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Set the cable pulley to face height and attach the rope.</li>
+      <li>Grab both rope ends, step back so there's tension, lean back slightly.</li>
+      <li>Pull the rope toward your face, splitting it apart at your ears.</li>
+      <li>Elbows flare out high and wide — squeeze your rear delts.</li>
+      <li>Slowly return (2 counts). 15 reps, 3 sets.</li>
+    </ol>
+    <div class="cue"><strong>Form cue:</strong> Light weight. Protects shoulders and fixes posture — don't skip it.</div>
   </div>
 
   <div class="ex main">
-    <div class="ex-images single">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?w=640&q=80" alt="Dumbbell shrug" loading="lazy">
-        <div class="img-label">🧍 Shrug straight UP — don't roll shoulders</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">4. Dumbbell Shrugs</div><span class="ex-badge b-main">Traps</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div>
-        <div class="m"><span class="m-v tv">12</span><span class="m-k">Reps</span></div>
-        <div class="m"><span class="m-v pv">1-2-2</span><span class="m-k">Tempo</span></div>
-        <div class="m"><span class="m-v sv">20–24 kg</span><span class="m-k">Each</span></div>
-        <div class="m"><span class="m-v mv">60s</span><span class="m-k">Rest</span></div>
-      </div>
-      <div class="ex-note">Hold heavy dumbbells, shrug straight UP (not rolling). Hold at top for 2 counts. Don't roll shoulders — it strains joints. Heavier weight is fine here.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">4. Dumbbell Shrugs</div><span class="ex-badge b-main">Traps</span></div>
+    <div class="machine-tag">🖥 Equipment: 2 dumbbells (20–24 kg each)</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">3</span><span class="m-k">Sets</span></div><div class="m"><span class="m-v tv">12</span><span class="m-k">Reps</span></div><div class="m"><span class="m-v pv">1-2-2</span><span class="m-k">Tempo</span></div><div class="m"><span class="m-v mv">60s</span><span class="m-k">Rest</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Stand tall holding a heavy dumbbell in each hand at your sides.</li>
+      <li>Keep arms straight (they don't bend).</li>
+      <li>Shrug your shoulders straight UP toward your ears (1 count).</li>
+      <li><strong>Hold 2 counts</strong> at the top, squeezing the traps.</li>
+      <li>Lower slowly (2 counts). 12 reps, 3 sets.</li>
+    </ol>
+    <div class="cue"><strong>Form cue:</strong> Shrug straight up — never roll your shoulders, it strains the joints.</div>
   </div>
 
   <div class="ph-label">— Phase 3 · Cardio Finisher (10 min)</div>
   <div class="tmill">
-    <div class="tmill-header">
-      <img class="tmill-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Tunturi_treadmill_t60.jpg/640px-Tunturi_treadmill_t60.jpg" alt="Treadmill" loading="lazy">
-      <div class="tmill-title">🏃 TREADMILL — INCLINE FOCUS</div>
-    </div>
+    <div class="tmill-title">🏃 TREADMILL — INCLINE FOCUS</div>
     <div class="tmill-head"><span>Phase</span><span>Speed</span><span>Incline</span><span>Time</span></div>
-    <div class="tmill-rows">
-      <div class="tmill-row"><span class="phase">Moderate Walk</span><span class="val spd">5.5</span><span class="val inc">3%</span><span class="val dur">3 min</span></div>
-      <div class="tmill-row"><span class="phase">Incline Power Walk</span><span class="val spd">5.5</span><span class="val inc">6%</span><span class="val dur">5 min</span></div>
-      <div class="tmill-row"><span class="phase">Cool Down</span><span class="val spd">4.0</span><span class="val inc">0%</span><span class="val dur">2 min</span></div>
-    </div>
+    <div class="tmill-row"><span class="phase">Moderate Walk</span><span class="val spd">5.5</span><span class="val inc">3%</span><span class="val dur">3 min</span></div>
+    <div class="tmill-row"><span class="phase">Incline Power Walk</span><span class="val spd">5.5</span><span class="val inc">6%</span><span class="val dur">5 min</span></div>
+    <div class="tmill-row"><span class="phase">Cool Down</span><span class="val spd">4.0</span><span class="val inc">0%</span><span class="val dur">2 min</span></div>
   </div>
 </div>
 
-<!-- ============================================================ SATURDAY -->
+<!-- SATURDAY -->
 <div id="p-sat" class="panel">
-  <div class="day-header">
-    <div><div class="day-title">SATURDAY</div><div class="day-focus">⚡ Full Body + Long Cardio</div></div>
-    <div class="day-dur">TOTAL<span>~75 MIN</span></div>
-  </div>
+  <div class="day-header"><div><div class="day-title">SATURDAY</div><div class="day-focus">⚡ Full Body + Long Cardio</div></div><div class="day-dur">TOTAL<span>~75 MIN</span></div></div>
 
-  <div class="ph-label">— Phase 1 · Warm-Up</div>
+  <div class="ph-label">— Phase 1 · Warm-Up (8 min)</div>
   <div class="ex warmup">
-    <div class="ex-images single">
-      <div class="img-panel">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Tunturi_treadmill_t60.jpg/640px-Tunturi_treadmill_t60.jpg" alt="Treadmill" loading="lazy">
-        <div class="img-label">🖥 Treadmill — 6.0 km/h · 5 min · 1% incline</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">Treadmill — Light Jog or Brisk Walk</div><span class="ex-badge b-warmup">Warm-Up</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v sv">6.0</span><span class="m-k">km/h</span></div>
-        <div class="m"><span class="m-v dv">5 min</span><span class="m-k">Duration</span></div>
-      </div>
-      <div class="ex-note">Saturday is your biggest session. If you can jog at 6.0 comfortably, go for it. Otherwise walk at 5.5 with 2% incline.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">Treadmill — Light Jog or Brisk Walk</div><span class="ex-badge b-warmup">Warm-Up</span></div>
+    <div class="machine-tag">🖥 Machine: Treadmill</div>
+    <div class="metrics"><div class="m"><span class="m-v sv">6.0</span><span class="m-k">km/h</span></div><div class="m"><span class="m-v dv">5 min</span><span class="m-k">Duration</span></div><div class="m"><span class="m-v mv">1%</span><span class="m-k">Incline</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps warm">
+      <li>If you can jog comfortably, jog at 6.0 km/h for 5 min. Otherwise walk at 5.5, 2% incline.</li>
+      <li>Follow with 10 bodyweight squats and 10 arm circles to prep the whole body.</li>
+    </ol>
   </div>
 
   <div class="ph-label">— Phase 2 · Full Body Circuit (35 min)</div>
-  <div class="circuit-box">
-    <strong>📋 CIRCUIT FORMAT:</strong> Do all 5 exercises back-to-back with 30s rest between each. Rest 2 min after completing all 5. Repeat the full circuit 3 times.
+  <div class="circuit-box"><strong>📋 CIRCUIT FORMAT:</strong> Do all 5 exercises back-to-back with 30s rest between each. After all 5, rest 2 min. Repeat the full circuit 3 times.</div>
+
+  <div class="ex main">
+    <div class="ex-top"><div class="ex-name">A. Dumbbell Thruster (Squat to Press)</div><span class="ex-badge b-main">Full Body</span></div>
+    <div class="machine-tag">🖥 Equipment: 2 dumbbells (8–10 kg each)</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">3</span><span class="m-k">Rounds</span></div><div class="m"><span class="m-v tv">10</span><span class="m-k">Reps</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Hold a dumbbell at each shoulder, feet shoulder-width.</li>
+      <li>Squat down until thighs are parallel.</li>
+      <li>As you stand up, press both dumbbells overhead in one smooth motion.</li>
+      <li>Lower the dumbbells back to shoulders and go straight into the next squat.</li>
+      <li>Do 10 reps. Rest 30 sec, move to exercise B.</li>
+    </ol>
   </div>
 
   <div class="ex main">
-    <div class="ex-images">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=640&q=80" alt="Dumbbells" loading="lazy">
-        <div class="img-label">🖥 Pair of Dumbbells (8–10 kg)</div>
-      </div>
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?w=640&q=80" alt="Thruster form" loading="lazy">
-        <div class="img-label">🧍 A. Squat → Press overhead</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">A. Dumbbell Thruster (Squat to Press)</div><span class="ex-badge b-main">Full Body</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">3</span><span class="m-k">Rounds</span></div>
-        <div class="m"><span class="m-v tv">10</span><span class="m-k">Reps</span></div>
-        <div class="m"><span class="m-v sv">8–10 kg</span><span class="m-k">Each hand</span></div>
-      </div>
-      <div class="ex-note">Hold dumbbells at shoulders, squat down, as you rise press overhead in one fluid motion. Maximum calorie burn. 8–10 kg each hand.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">B. Dumbbell Romanian Deadlift</div><span class="ex-badge b-main">Hamstrings + Glutes</span></div>
+    <div class="machine-tag">🖥 Equipment: 2 dumbbells (14–18 kg each)</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">3</span><span class="m-k">Rounds</span></div><div class="m"><span class="m-v tv">10</span><span class="m-k">Reps</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Stand holding dumbbells in front of your thighs, knees slightly bent.</li>
+      <li>Push your hips back and hinge forward, lowering the dumbbells down your legs.</li>
+      <li>Go until you feel a stretch in your hamstrings (around shin level).</li>
+      <li>Keep your back flat the entire time — never round it.</li>
+      <li>Drive hips forward to stand up. 10 reps, rest 30 sec, go to C.</li>
+    </ol>
+    <div class="cue"><strong>Form cue:</strong> This is a hip hinge, NOT a squat. Movement comes from hips going back.</div>
   </div>
 
   <div class="ex main">
-    <div class="ex-images single">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?w=640&q=80" alt="Romanian deadlift" loading="lazy">
-        <div class="img-label">🧍 B. Romanian Deadlift — Hinge at hips, back flat</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">B. Dumbbell Romanian Deadlift</div><span class="ex-badge b-main">Hamstrings + Glutes</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">3</span><span class="m-k">Rounds</span></div>
-        <div class="m"><span class="m-v tv">10</span><span class="m-k">Reps</span></div>
-        <div class="m"><span class="m-v sv">14–18 kg</span><span class="m-k">Each hand</span></div>
-      </div>
-      <div class="ex-note">Hold dumbbells in front of thighs. Hinge at hips, push them back, lower weights down legs until you feel hamstring stretch. Back FLAT. This is NOT a squat — it's a hip hinge.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">C. Bent-Over Dumbbell Row</div><span class="ex-badge b-main">Back</span></div>
+    <div class="machine-tag">🖥 Equipment: 2 dumbbells</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">3</span><span class="m-k">Rounds</span></div><div class="m"><span class="m-v tv">10</span><span class="m-k">Reps</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Hinge forward at the hips about 45°, back flat, dumbbells hanging down.</li>
+      <li>Row both dumbbells up to your sides, elbows driving back.</li>
+      <li>Squeeze your shoulder blades together at the top.</li>
+      <li>Lower slowly. 10 reps, rest 30 sec, go to D.</li>
+    </ol>
   </div>
 
   <div class="ex main">
-    <div class="ex-images single">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=640&q=80" alt="Bent over row" loading="lazy">
-        <div class="img-label">🧍 C. Bent-Over Row — Hinge 45°, row to hips</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">C. Bent-Over Dumbbell Row</div><span class="ex-badge b-main">Back</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">3</span><span class="m-k">Rounds</span></div>
-        <div class="m"><span class="m-v tv">10</span><span class="m-k">Reps</span></div>
-      </div>
-      <div class="ex-note">Hinge forward 45°, row both dumbbells to sides simultaneously. Squeeze upper back hard. Flat back — never rounded.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">D. Push-Up (or Knee Push-Up)</div><span class="ex-badge b-main">Chest + Triceps</span></div>
+    <div class="machine-tag">🧍 Bodyweight</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">3</span><span class="m-k">Rounds</span></div><div class="m"><span class="m-v tv">8–12</span><span class="m-k">Reps</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Place hands slightly wider than shoulders, body in a straight line.</li>
+      <li>(If full push-ups are too hard, drop to your knees — totally fine.)</li>
+      <li>Lower your chest toward the floor (2 counts), elbows at 45°.</li>
+      <li>Push back up to the top. Do as many as you can with good form (8–12).</li>
+      <li>Rest 30 sec, go to E.</li>
+    </ol>
   </div>
 
   <div class="ex main">
-    <div class="ex-images single">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1571019613576-2b22c76fd955?w=640&q=80" alt="Push up" loading="lazy">
-        <div class="img-label">🧍 D. Push-Up — Lower chest 2 counts, push up</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">D. Push-Up (or Knee Push-Up)</div><span class="ex-badge b-main">Chest + Triceps</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">3</span><span class="m-k">Rounds</span></div>
-        <div class="m"><span class="m-v tv">8–12</span><span class="m-k">Reps</span></div>
-      </div>
-      <div class="ex-note">As many as you can with good form. Knee push-ups are totally valid — do those if full ones are too hard. Lower body stays in a straight line. Progress each week.</div>
-    </div>
-  </div>
-
-  <div class="ex main">
-    <div class="ex-images single">
-      <div class="img-panel">
-        <img src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=640&q=80" alt="Mountain climbers" loading="lazy">
-        <div class="img-label">🧍 E. Mountain Climbers — Drive knees to chest</div>
-      </div>
-    </div>
-    <div class="ex-body">
-      <div class="ex-top"><div class="ex-name">E. Mountain Climbers</div><span class="ex-badge b-main">Core + Cardio</span></div>
-      <div class="metrics">
-        <div class="m"><span class="m-v cv">3</span><span class="m-k">Rounds</span></div>
-        <div class="m"><span class="m-v tv">20</span><span class="m-k">Total reps</span></div>
-        <div class="m"><span class="m-v mv">2 min</span><span class="m-k">Rest after circuit</span></div>
-      </div>
-      <div class="ex-note">In push-up position, drive knees to chest alternately. 20 total = 10 each side. Controlled pace, hips stay low. This is your heart rate spike at the end of each round.</div>
-    </div>
+    <div class="ex-top"><div class="ex-name">E. Mountain Climbers</div><span class="ex-badge b-main">Core + Cardio</span></div>
+    <div class="machine-tag">🧍 Bodyweight</div>
+    <div class="metrics"><div class="m"><span class="m-v cv">3</span><span class="m-k">Rounds</span></div><div class="m"><span class="m-v tv">20</span><span class="m-k">Total</span></div><div class="m"><span class="m-v mv">2 min</span><span class="m-k">Rest after</span></div></div>
+    <div class="steps-title">Steps</div>
+    <ol class="steps">
+      <li>Get into a push-up position, hands under shoulders, body straight.</li>
+      <li>Drive your right knee toward your chest, then return it.</li>
+      <li>Immediately drive your left knee in. Keep alternating at a controlled pace.</li>
+      <li>Do 20 total (10 each leg). Then rest 2 min before repeating the whole circuit.</li>
+    </ol>
+    <div class="cue"><strong>Form cue:</strong> Keep hips low and level — don't let your butt pop up.</div>
   </div>
 
   <div class="ph-label">— Phase 3 · Main Cardio (20 min)</div>
   <div class="tmill">
-    <div class="tmill-header">
-      <img class="tmill-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Tunturi_treadmill_t60.jpg/640px-Tunturi_treadmill_t60.jpg" alt="Treadmill" loading="lazy">
-      <div class="tmill-title">🏃 SATURDAY LONG PROTOCOL</div>
-    </div>
+    <div class="tmill-title">🏃 SATURDAY LONG PROTOCOL</div>
     <div class="tmill-head"><span>Phase</span><span>Speed</span><span>Incline</span><span>Time</span></div>
-    <div class="tmill-rows">
-      <div class="tmill-row"><span class="phase">Easy Walk</span><span class="val spd">5.0</span><span class="val inc">1%</span><span class="val dur">3 min</span></div>
-      <div class="tmill-row"><span class="phase">Moderate Walk</span><span class="val spd">6.0</span><span class="val inc">2%</span><span class="val dur">4 min</span></div>
-      <div class="tmill-row"><span class="phase">Power Walk / Jog</span><span class="val spd">7.0</span><span class="val inc">2%</span><span class="val dur">5 min</span></div>
-      <div class="tmill-row"><span class="phase">Incline Power Walk</span><span class="val spd">5.5</span><span class="val inc">7%</span><span class="val dur">5 min</span></div>
-      <div class="tmill-row"><span class="phase">Recovery Walk</span><span class="val spd">5.0</span><span class="val inc">2%</span><span class="val dur">2 min</span></div>
-      <div class="tmill-row"><span class="phase">Cool Down</span><span class="val spd">4.0</span><span class="val inc">0%</span><span class="val dur">1 min</span></div>
-    </div>
+    <div class="tmill-row"><span class="phase">Easy Walk</span><span class="val spd">5.0</span><span class="val inc">1%</span><span class="val dur">3 min</span></div>
+    <div class="tmill-row"><span class="phase">Moderate Walk</span><span class="val spd">6.0</span><span class="val inc">2%</span><span class="val dur">4 min</span></div>
+    <div class="tmill-row"><span class="phase">Power Walk / Jog</span><span class="val spd">7.0</span><span class="val inc">2%</span><span class="val dur">5 min</span></div>
+    <div class="tmill-row"><span class="phase">Incline Power Walk</span><span class="val spd">5.5</span><span class="val inc">7%</span><span class="val dur">5 min</span></div>
+    <div class="tmill-row"><span class="phase">Recovery Walk</span><span class="val spd">5.0</span><span class="val inc">2%</span><span class="val dur">2 min</span></div>
+    <div class="tmill-row"><span class="phase">Cool Down</span><span class="val spd">4.0</span><span class="val inc">0%</span><span class="val dur">1 min</span></div>
   </div>
 </div>
 
-<!-- ============================================================ SUNDAY -->
+<!-- SUNDAY -->
 <div id="p-sun" class="panel">
-  <div class="day-header">
-    <div><div class="day-title">SUNDAY</div><div class="day-focus" style="border-color:var(--rest-accent);color:var(--rest-accent);">🌿 Complete Rest</div></div>
-  </div>
-  <div class="rest-hero">
-    <h2>YOU EARNED IT.</h2>
-    <p>5 days done. Your body is repairing, muscles are growing, metabolism is resetting. Do absolutely nothing intense today. You come back Monday stronger.</p>
-  </div>
+  <div class="day-header"><div><div class="day-title">SUNDAY</div><div class="day-focus" style="border-color:var(--rest-accent);color:var(--rest-accent);">🌿 Complete Rest</div></div></div>
+  <div class="rest-hero"><h2>YOU EARNED IT.</h2><p>5 days done. Your body is repairing, muscles growing, metabolism resetting. Do nothing intense today — come back Monday stronger.</p></div>
   <div class="rest-tips">
-    <div class="rest-tip"><div class="ico">🍽️</div><h4>Meal Prep</h4><p>Prep protein-rich meals for the week — boiled eggs, chicken, dal, paneer.</p></div>
-    <div class="rest-tip"><div class="ico">📊</div><h4>Track Weight</h4><p>Weigh Sunday morning before eating. Judge by the weekly trend, not daily.</p></div>
-    <div class="rest-tip"><div class="ico">🏊</div><h4>Optional Swim</h4><p>A slow 20-min swim is perfect rest-day activity. Zero joint stress.</p></div>
-    <div class="rest-tip"><div class="ico">🎯</div><h4>Plan Ahead</h4><p>Increase weight slightly on exercises that felt easy this week.</p></div>
+    <div class="rest-tip"><div class="ico">🍽️</div><h4>Meal Prep</h4><p>Prep protein meals for the week — boiled eggs, chicken, dal, paneer.</p></div>
+    <div class="rest-tip"><div class="ico">📊</div><h4>Track Weight</h4><p>Weigh Sunday morning before eating. Judge the weekly trend, not daily.</p></div>
+    <div class="rest-tip"><div class="ico">🏊</div><h4>Optional Swim</h4><p>A slow 20-min swim is perfect — zero joint stress.</p></div>
+    <div class="rest-tip"><div class="ico">🎯</div><h4>Plan Ahead</h4><p>Add a little weight on exercises that felt easy this week.</p></div>
   </div>
 </div>
 
 <footer>DARSHAN'S GYM BLUEPRINT — STARTING JUNE 1, 2026 ⚡</footer>
 
 <script>
-  function show(day) {
-    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.getElementById('p-' + day).classList.add('active');
-    const days = ['mon','tue','wed','thu','fri','sat','sun'];
+  function show(day){
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.getElementById('p-'+day).classList.add('active');
+    var days=['mon','tue','wed','thu','fri','sat','sun'];
     document.querySelectorAll('.tab')[days.indexOf(day)].classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({top:0,behavior:'smooth'});
   }
 </script>
 </body>
